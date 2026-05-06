@@ -16,6 +16,7 @@ export declare class AuthService {
         role: Role;
     }>;
     login(dto: LoginDto, response: Response): Promise<{
+        message: string;
         access_token: string;
         user: {
             id: string;

@@ -12,7 +12,6 @@ export class MongooseUserRepository implements IUserRepository {
     }
 
     async update(userId: string, dto: UpdateMeDto): Promise<User | null> {
-
         const updatedDoc = await this.userModel
             .findByIdAndUpdate(
                 userId,
@@ -22,35 +21,24 @@ export class MongooseUserRepository implements IUserRepository {
                     runValidators: true
                 }
             )
+            .lean()
             .exec();
 
         if (!updatedDoc) return null;
 
-        return {
-            id: updatedDoc._id.toString(),
-            email: updatedDoc.email,
-            password: updatedDoc.password,
-            role: updatedDoc.role
-        };
+        return { ...updatedDoc, id: updatedDoc._id.toString() } as User;
     }
 
     async create(user: Partial<User>): Promise<User> {
         const createdUser = new this.userModel(user);
         const saved = await createdUser.save();
-        return { id: saved._id as unknown as string, email: saved.email, password: saved.password, role: saved.role };
+        const plainObject = saved.toObject();
+        return { ...plainObject, id: plainObject._id.toString() } as User;
     }
 
     async findByEmail(email: string): Promise<User | null> {
-        const user = await this.userModel.findOne({ email }).exec();
+        const user = await this.userModel.findOne({ email }).lean().exec();
         if (!user) return null;
-
-        return {
-            id: user._id.toString(),
-            email: user.email,
-            password: user.password,
-            role: user.role
-        };
+        return { ...user, id: user._id.toString() } as User;
     }
-
-
 }

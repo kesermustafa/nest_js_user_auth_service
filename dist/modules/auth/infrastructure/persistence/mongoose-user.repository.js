@@ -27,31 +27,23 @@ let MongooseUserRepository = class MongooseUserRepository {
             returnDocument: 'after',
             runValidators: true
         })
+            .lean()
             .exec();
         if (!updatedDoc)
             return null;
-        return {
-            id: updatedDoc._id.toString(),
-            email: updatedDoc.email,
-            password: updatedDoc.password,
-            role: updatedDoc.role
-        };
+        return { ...updatedDoc, id: updatedDoc._id.toString() };
     }
     async create(user) {
         const createdUser = new this.userModel(user);
         const saved = await createdUser.save();
-        return { id: saved._id, email: saved.email, password: saved.password, role: saved.role };
+        const plainObject = saved.toObject();
+        return { ...plainObject, id: plainObject._id.toString() };
     }
     async findByEmail(email) {
-        const user = await this.userModel.findOne({ email }).exec();
+        const user = await this.userModel.findOne({ email }).lean().exec();
         if (!user)
             return null;
-        return {
-            id: user._id.toString(),
-            email: user.email,
-            password: user.password,
-            role: user.role
-        };
+        return { ...user, id: user._id.toString() };
     }
 };
 exports.MongooseUserRepository = MongooseUserRepository;

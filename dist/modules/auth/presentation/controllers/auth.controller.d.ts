@@ -12,6 +12,7 @@ export declare class AuthController {
         role: Role;
     }>;
     login(dto: LoginDto, response: Response): Promise<{
+        message: string;
         access_token: string;
         user: {
             id: string;

@@ -75,6 +75,7 @@ export class AuthService {
         });
 
         return {
+            message: 'Başarıyla giriş yapıldı',
             access_token: accessToken,
             user: UserMapper.toResponse(user)
         };

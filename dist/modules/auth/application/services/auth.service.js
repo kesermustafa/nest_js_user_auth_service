@@ -65,6 +65,7 @@ let AuthService = class AuthService {
             maxAge: 2 * 24 * 60 * 60 * 1000,
         });
         return {
+            message: 'Başarıyla giriş yapıldı',
             access_token: accessToken,
             user: user_mapper_1.UserMapper.toResponse(user)
         };
