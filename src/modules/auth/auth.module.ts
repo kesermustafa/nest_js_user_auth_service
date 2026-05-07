@@ -7,6 +7,7 @@ import { Users, UserSchema } from './infrastructure/persistence/schemas/user.sch
 import {SecurityModule} from "../../security/security.module";
 import {RefreshToken, RefreshTokenSchema} from "./infrastructure/persistence/schemas/refresh-token.schema";
 import {MongooseRefreshTokenRepository} from "./infrastructure/persistence/mongoose-refresh-token.repository";
+import {RequestContext} from "./application/services/RequestContext";
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import {MongooseRefreshTokenRepository} from "./infrastructure/persistence/mongo
     controllers: [AuthController],
     providers: [
         AuthService,
+        RequestContext,
 
         {
             provide: 'IUserRepository',

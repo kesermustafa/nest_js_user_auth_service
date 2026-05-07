@@ -9,4 +9,5 @@ export declare class MongooseUserRepository implements IUserRepository {
     update(userId: string, dto: UpdateMeDto): Promise<User | null>;
     create(user: Partial<User>): Promise<User>;
     findByEmail(email: string): Promise<User | null>;
+    findById(id: string): Promise<User | null>;
 }

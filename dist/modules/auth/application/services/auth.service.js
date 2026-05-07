@@ -18,11 +18,13 @@ const user_repository_interface_1 = require("../../domain/repositories/user-repo
 const security_service_1 = require("../../../../security/security.service");
 const user_mapper_1 = require("../mappers/user.mapper");
 const crypto = require("crypto");
+const RequestContext_1 = require("./RequestContext");
 let AuthService = class AuthService {
-    constructor(userRepository, refreshTokenRepository, securityService) {
+    constructor(userRepository, refreshTokenRepository, securityService, requestContext) {
         this.userRepository = userRepository;
         this.refreshTokenRepository = refreshTokenRepository;
         this.securityService = securityService;
+        this.requestContext = requestContext;
     }
     async register(dto) {
         const exists = await this.userRepository.findByEmail(dto.email);
@@ -113,12 +115,18 @@ let AuthService = class AuthService {
         response.clearCookie('refresh_token');
         return { message: 'Başarıyla çıkış yapıldı' };
     }
-    async updateProfile(userId, dto) {
+    async updateProfile(user, dto) {
+        const userId = user.sub;
         if (dto.email) {
             const existingUser = await this.userRepository.findByEmail(dto.email);
             if (existingUser && existingUser.id !== userId) {
                 throw new common_1.ConflictException('Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor');
             }
+        }
+        if (dto.email === user.email) {
+            return {
+                message: "degisiklik yapmadiniz"
+            };
         }
         const updatedUser = await this.userRepository.update(userId, dto);
         if (!updatedUser) {
@@ -126,12 +134,37 @@ let AuthService = class AuthService {
         }
         return user_mapper_1.UserMapper.toResponse(updatedUser);
     }
+    async findById(userId) {
+        const user = await this.userRepository.findById(userId);
+        if (!user) {
+            throw new common_1.NotFoundException('Kullanıcı bulunamadı');
+        }
+        return user_mapper_1.UserMapper.toResponse(user);
+    }
+    async getCurrentUser(user) {
+        return this.userRepository.findById(user.sub);
+    }
+    async deneme() {
+        return this.currentUser();
+    }
+    async currentUser() {
+        const payload = this.requestContext.user;
+        if (!payload) {
+            throw new common_1.NotFoundException('Kullanıcı bulunamadı');
+        }
+        const user = await this.userRepository.findById(payload.sub);
+        if (!user) {
+            throw new common_1.NotFoundException('Kullanıcı bulunamadı');
+        }
+        return user_mapper_1.UserMapper.toResponse(user);
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)('IUserRepository')),
     __param(1, (0, common_1.Inject)('IRefreshTokenRepository')),
-    __metadata("design:paramtypes", [user_repository_interface_1.IUserRepository, Object, security_service_1.SecurityService])
+    __metadata("design:paramtypes", [user_repository_interface_1.IUserRepository, Object, security_service_1.SecurityService,
+        RequestContext_1.RequestContext])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

@@ -1,6 +1,6 @@
 import {Inject, Injectable, UnauthorizedException, NotFoundException, ConflictException } from '@nestjs/common';
 import { IUserRepository } from '../../domain/repositories/user-repository.interface';
-import { SecurityService } from '../../../../security/security.service';
+import {JwtPayload, SecurityService} from '../../../../security/security.service';
 import { UserMapper } from '../mappers/user.mapper';
 import { Response, Request } from 'express';
 import { LoginDto, RegisterDto } from "../dtos/auth.dto";
@@ -8,6 +8,8 @@ import * as crypto from 'crypto';
 import {Role} from "../../domain/enums/role.enum";
 import {IRefreshTokenRepository} from "../../domain/repositories/refresh-token.repository.interface";
 import {UpdateMeDto} from "../dtos/update-me.dto";
+import {get} from "mongoose";
+import {RequestContext} from "./RequestContext";
 
 
 @Injectable()
@@ -19,6 +21,8 @@ export class AuthService {
         @Inject('IRefreshTokenRepository')
         private readonly refreshTokenRepository: IRefreshTokenRepository,
         private readonly securityService: SecurityService,
+
+        private readonly requestContext: RequestContext
     ) {}
 
     async register(dto: RegisterDto) {
@@ -143,7 +147,10 @@ export class AuthService {
         return { message: 'Başarıyla çıkış yapıldı' };
     }
 
-    async updateProfile(userId: string, dto: UpdateMeDto) {
+    async updateProfile(user:JwtPayload, dto: UpdateMeDto) {
+
+        const userId = user.sub;
+
         // 1. Eğer email güncellenmek isteniyorsa, başkasında var mı bak
         if (dto.email) {
             const existingUser = await this.userRepository.findByEmail(dto.email);
@@ -151,6 +158,12 @@ export class AuthService {
             // Önemli: Bulunan kullanıcı BEN değilsem hata ver (ID kontrolü)
             if (existingUser && existingUser.id !== userId) {
                 throw new ConflictException('Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor');
+            }
+        }
+
+        if(dto.email === user.email ){
+            return {
+                message: "degisiklik yapmadiniz"
             }
         }
 
@@ -163,4 +176,39 @@ export class AuthService {
 
         return UserMapper.toResponse(updatedUser);
     }
+
+    async findById(userId: string){
+        const user = await this.userRepository.findById(userId);
+        if (!user) {
+            throw new NotFoundException('Kullanıcı bulunamadı');
+        }
+
+        return UserMapper.toResponse(user);
+    }
+
+    async getCurrentUser(user: JwtPayload) {
+        return this.userRepository.findById(user.sub);
+    }
+
+    async deneme() {
+        return this.currentUser();
+    }
+
+    async currentUser(){
+        const payload = this.requestContext.user;
+
+        if (!payload) {
+            throw new NotFoundException('Kullanıcı bulunamadı');
+        }
+
+        const user = await this.userRepository.findById(payload.sub);
+
+        if (!user) {
+            throw new NotFoundException('Kullanıcı bulunamadı');
+        }
+
+        return UserMapper.toResponse(user);
+    }
+
+
 }

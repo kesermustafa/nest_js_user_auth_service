@@ -45,6 +45,12 @@ let MongooseUserRepository = class MongooseUserRepository {
             return null;
         return { ...user, id: user._id.toString() };
     }
+    async findById(id) {
+        const user = await this.userModel.findById(id).lean().exec();
+        if (!user)
+            return null;
+        return { ...user, id: user._id.toString() };
+    }
 };
 exports.MongooseUserRepository = MongooseUserRepository;
 exports.MongooseUserRepository = MongooseUserRepository = __decorate([

@@ -14,6 +14,15 @@ export declare const RefreshTokenSchema: import("mongoose").Schema<RefreshToken,
 }, "id"> & {
     id: string;
 }, {
+    jti?: import("mongoose").SchemaDefinitionProperty<string, RefreshToken, Document<unknown, {}, RefreshToken, {
+        id: string;
+    }, import("mongoose").DefaultSchemaOptions> & Omit<RefreshToken & Required<{
+        _id: Types.ObjectId;
+    }> & {
+        __v: number;
+    }, "id"> & {
+        id: string;
+    }>;
     _id?: import("mongoose").SchemaDefinitionProperty<Types.ObjectId, RefreshToken, Document<unknown, {}, RefreshToken, {
         id: string;
     }, import("mongoose").DefaultSchemaOptions> & Omit<RefreshToken & Required<{
@@ -24,15 +33,6 @@ export declare const RefreshTokenSchema: import("mongoose").Schema<RefreshToken,
         id: string;
     }>;
     userId?: import("mongoose").SchemaDefinitionProperty<Types.ObjectId, RefreshToken, Document<unknown, {}, RefreshToken, {
-        id: string;
-    }, import("mongoose").DefaultSchemaOptions> & Omit<RefreshToken & Required<{
-        _id: Types.ObjectId;
-    }> & {
-        __v: number;
-    }, "id"> & {
-        id: string;
-    }>;
-    jti?: import("mongoose").SchemaDefinitionProperty<string, RefreshToken, Document<unknown, {}, RefreshToken, {
         id: string;
     }, import("mongoose").DefaultSchemaOptions> & Omit<RefreshToken & Required<{
         _id: Types.ObjectId;

@@ -41,4 +41,10 @@ export class MongooseUserRepository implements IUserRepository {
         if (!user) return null;
         return { ...user, id: user._id.toString() } as User;
     }
+
+    async findById(id: string): Promise<User | null> {
+        const user = await this.userModel.findById(id).lean().exec();
+        if (!user) return null;
+        return { ...user, id: user._id.toString() } as User;
+    }
 }

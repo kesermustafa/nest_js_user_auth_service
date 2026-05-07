@@ -15,5 +15,5 @@ export declare class SecurityService {
     comparePassword(password: string, hash: string): Promise<boolean>;
     hashPassword(password: string): Promise<string>;
     generateToken(payload: JwtPayload, expiresIn: string): Promise<string>;
-    verifyToken(token: string): Promise<any>;
+    verifyToken(token: string): Promise<JwtPayload | null>;
 }

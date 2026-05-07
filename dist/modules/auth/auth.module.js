@@ -16,6 +16,7 @@ const user_schema_1 = require("./infrastructure/persistence/schemas/user.schema"
 const security_module_1 = require("../../security/security.module");
 const refresh_token_schema_1 = require("./infrastructure/persistence/schemas/refresh-token.schema");
 const mongoose_refresh_token_repository_1 = require("./infrastructure/persistence/mongoose-refresh-token.repository");
+const RequestContext_1 = require("./application/services/RequestContext");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -31,6 +32,7 @@ exports.AuthModule = AuthModule = __decorate([
         controllers: [auth_controller_1.AuthController],
         providers: [
             auth_service_1.AuthService,
+            RequestContext_1.RequestContext,
             {
                 provide: 'IUserRepository',
                 useClass: mongoose_user_repository_1.MongooseUserRepository

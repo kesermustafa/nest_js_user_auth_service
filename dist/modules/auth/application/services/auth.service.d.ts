@@ -1,15 +1,17 @@
 import { IUserRepository } from '../../domain/repositories/user-repository.interface';
-import { SecurityService } from '../../../../security/security.service';
+import { JwtPayload, SecurityService } from '../../../../security/security.service';
 import { Response } from 'express';
 import { LoginDto, RegisterDto } from "../dtos/auth.dto";
 import { Role } from "../../domain/enums/role.enum";
 import { IRefreshTokenRepository } from "../../domain/repositories/refresh-token.repository.interface";
 import { UpdateMeDto } from "../dtos/update-me.dto";
+import { RequestContext } from "./RequestContext";
 export declare class AuthService {
     private readonly userRepository;
     private readonly refreshTokenRepository;
     private readonly securityService;
-    constructor(userRepository: IUserRepository, refreshTokenRepository: IRefreshTokenRepository, securityService: SecurityService);
+    private readonly requestContext;
+    constructor(userRepository: IUserRepository, refreshTokenRepository: IRefreshTokenRepository, securityService: SecurityService, requestContext: RequestContext);
     register(dto: RegisterDto): Promise<{
         id: string;
         email: string;
@@ -30,7 +32,25 @@ export declare class AuthService {
     logout(token: string, response: Response): Promise<{
         message: string;
     }>;
-    updateProfile(userId: string, dto: UpdateMeDto): Promise<{
+    updateProfile(user: JwtPayload, dto: UpdateMeDto): Promise<{
+        id: string;
+        email: string;
+        role: Role;
+    } | {
+        message: string;
+    }>;
+    findById(userId: string): Promise<{
+        id: string;
+        email: string;
+        role: Role;
+    }>;
+    getCurrentUser(user: JwtPayload): Promise<import("../../domain/entities/user.entity").User>;
+    deneme(): Promise<{
+        id: string;
+        email: string;
+        role: Role;
+    }>;
+    currentUser(): Promise<{
         id: string;
         email: string;
         role: Role;

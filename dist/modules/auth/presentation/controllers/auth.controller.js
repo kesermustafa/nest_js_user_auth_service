@@ -42,8 +42,19 @@ let AuthController = class AuthController {
         const token = request.cookies['refresh_token'];
         return this.authService.logout(token, response);
     }
-    async updateMe(userId, dto) {
-        return this.authService.updateProfile(userId, dto);
+    async updateMe(user, dto) {
+        const userId = user.sub;
+        return this.authService.updateProfile(user, dto);
+    }
+    async getUser(request) {
+        const userId = request.user.sub;
+        return await this.authService.findById(userId);
+    }
+    getMe(user) {
+        return this.authService.getCurrentUser(user);
+    }
+    deneme() {
+        return this.authService.deneme();
     }
 };
 exports.AuthController = AuthController;
@@ -89,12 +100,35 @@ __decorate([
 __decorate([
     (0, common_1.Patch)('update-me'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    __param(0, (0, current_user_decorator_1.CurrentUser)('sub')),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_me_dto_1.UpdateMeDto]),
+    __metadata("design:paramtypes", [Object, update_me_dto_1.UpdateMeDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "updateMe", null);
+__decorate([
+    (0, common_1.Get)('me'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getUser", null);
+__decorate([
+    (0, common_1.Get)('current-user'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "getMe", null);
+__decorate([
+    (0, common_1.Get)('deneme'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "deneme", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

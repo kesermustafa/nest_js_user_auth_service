@@ -54,10 +54,10 @@ export class SecurityService {
     }
 
     // JWT Doğrulama
-    async verifyToken(token: string): Promise<any> {
+    async verifyToken(token: string): Promise<JwtPayload | null> {
         try {
             const { payload } = await jose.jwtVerify(token, this.secret);
-            return payload;
+            return payload as JwtPayload;
         } catch (error) {
             return null;
         }

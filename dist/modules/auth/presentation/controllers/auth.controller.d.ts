@@ -3,6 +3,7 @@ import { RegisterDto, LoginDto } from '../../application/dtos/auth.dto';
 import { Response, Request } from 'express';
 import { Role } from "../../domain/enums/role.enum";
 import { UpdateMeDto } from "../../application/dtos/update-me.dto";
+import { JwtPayload } from "../../../../security/security.service";
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
@@ -27,7 +28,20 @@ export declare class AuthController {
     logout(request: Request, response: Response): Promise<{
         message: string;
     }>;
-    updateMe(userId: string, dto: UpdateMeDto): Promise<{
+    updateMe(user: JwtPayload, dto: UpdateMeDto): Promise<{
+        id: string;
+        email: string;
+        role: Role;
+    } | {
+        message: string;
+    }>;
+    getUser(request: Request): Promise<{
+        id: string;
+        email: string;
+        role: Role;
+    }>;
+    getMe(user: JwtPayload): Promise<import("../../domain/entities/user.entity").User>;
+    deneme(): Promise<{
         id: string;
         email: string;
         role: Role;
