@@ -10,7 +10,7 @@ async function bootstrap() {
     const configService = app.get(config_1.ConfigService);
     const port = configService.get('PORT') || 3000;
     await app.listen(port);
-    console.log(`Uygulama port ${port} üzerinde çalışıyor.`);
+    console.log(` ✅ Uygulama port ${port} üzerinde çalışıyor. 🆗`);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

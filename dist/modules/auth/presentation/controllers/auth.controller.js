@@ -59,6 +59,7 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -66,6 +67,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "register", null);
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
@@ -74,6 +76,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('refresh'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
@@ -90,6 +93,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "adminTask", null);
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('logout'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
@@ -98,6 +102,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Patch)('update-me'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
@@ -107,6 +112,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "updateMe", null);
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Get)('me'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Req)()),
@@ -115,6 +121,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getUser", null);
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Get)('current-user'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
@@ -123,6 +130,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getMe", null);
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Get)('deneme'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __metadata("design:type", Function),

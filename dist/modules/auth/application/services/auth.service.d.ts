@@ -1,5 +1,5 @@
-import { IUserRepository } from '../../domain/repositories/user-repository.interface';
-import { JwtPayload, SecurityService } from '../../../../security/security.service';
+import { IUserRepository } from "../../domain/repositories/user-repository.interface";
+import { JwtPayload, SecurityService } from "../../../../security/security.service";
 import { Response } from 'express';
 import { LoginDto, RegisterDto } from "../dtos/auth.dto";
 import { Role } from "../../domain/enums/role.enum";

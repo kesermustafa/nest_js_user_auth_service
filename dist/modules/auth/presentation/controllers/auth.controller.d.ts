@@ -1,5 +1,5 @@
-import { AuthService } from '../../application/services/auth.service';
-import { RegisterDto, LoginDto } from '../../application/dtos/auth.dto';
+import { AuthService } from "../../application/services/auth.service";
+import { RegisterDto, LoginDto } from "../../application/dtos/auth.dto";
 import { Response, Request } from 'express';
 import { Role } from "../../domain/enums/role.enum";
 import { UpdateMeDto } from "../../application/dtos/update-me.dto";

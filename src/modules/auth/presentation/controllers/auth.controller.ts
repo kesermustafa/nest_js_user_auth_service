@@ -1,25 +1,26 @@
-import {Controller, Get, Post, Body, Res, Req, UseGuards, Patch, SetMetadata} from '@nestjs/common';
-import {AuthService} from '../../application/services/auth.service';
-import {RegisterDto, LoginDto} from '../../application/dtos/auth.dto';
+import {Controller, Get, Post, Body, Res, Req, UseGuards, Patch, HttpCode, HttpStatus, SetMetadata} from '@nestjs/common';
+import {AuthService} from "@auth/application/services/auth.service";
+import {RegisterDto, LoginDto} from '@auth/application/dtos/auth.dto';
 import {Response, Request} from 'express';
-import {Role} from "../../domain/enums/role.enum";
-import {RolesGuard} from "../../infrastructure/guards/roles.guard";
-import {AuthGuard} from "../../infrastructure/guards/auth.guard";
-import {CurrentUser} from "../../infrastructure/decorators/current-user.decorator";
-import {UpdateMeDto} from "../../application/dtos/update-me.dto";
-import {JwtPayload} from "../../../../security/security.service";
-
+import {Role} from "@auth/domain/enums/role.enum";
+import {RolesGuard} from "@auth/infrastructure/guards/roles.guard";
+import {AuthGuard} from "@auth/infrastructure/guards/auth.guard";
+import {CurrentUser} from "@auth/infrastructure/decorators/current-user.decorator";
+import {UpdateMeDto} from "@auth/application/dtos/update-me.dto";
+import {JwtPayload} from "@/security/security.service";
 
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {
     }
 
+    @HttpCode(HttpStatus.CREATED)
     @Post('register')
     register(@Body() dto: RegisterDto) {
         return this.authService.register(dto);
     }
 
+    @HttpCode(HttpStatus.OK)
     @Post('login')
     async login(
         @Body() dto: LoginDto,
@@ -28,7 +29,7 @@ export class AuthController {
         return this.authService.login(dto, response);
     }
 
-
+    @HttpCode(HttpStatus.OK)
     @Post('refresh')
     async refresh(
         @Req() request: Request,
@@ -46,6 +47,7 @@ export class AuthController {
         return 'Bu gizli bir admin panelidir.';
     }
 
+    @HttpCode(HttpStatus.OK)
     @Post('logout')
     async logout(
         @Req() request: Request,
@@ -56,6 +58,7 @@ export class AuthController {
 
     }
 
+    @HttpCode(HttpStatus.OK)
     @Patch('update-me')
     @UseGuards(AuthGuard) // Guard mutlaka olmalı ki request.user dolsun
     async updateMe(
@@ -66,6 +69,7 @@ export class AuthController {
         return this.authService.updateProfile(user, dto);
     }
 
+    @HttpCode(HttpStatus.OK)
     @Get('me')
     @UseGuards(AuthGuard)
     async getUser(@Req() request: Request) {
@@ -73,12 +77,14 @@ export class AuthController {
         return await this.authService.findById(userId)
     }
 
+    @HttpCode(HttpStatus.OK)
     @Get('current-user')
     @UseGuards(AuthGuard)
     getMe(@CurrentUser() user: JwtPayload) {
         return this.authService.getCurrentUser(user);
     }
 
+    @HttpCode(HttpStatus.OK)
     @Get('deneme')
     @UseGuards(AuthGuard)
     deneme(){

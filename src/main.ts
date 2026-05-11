@@ -12,6 +12,6 @@ async function bootstrap() {
     const port = configService.get('PORT') || 3000;
 
     await app.listen(port);
-    console.log(`Uygulama port ${port} üzerinde çalışıyor.`);
+    console.log(` ✅ Uygulama port ${port} üzerinde çalışıyor. 🆗`);
 }
 bootstrap();

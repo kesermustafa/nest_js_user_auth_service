@@ -14,6 +14,15 @@ export declare const UserSchema: import("mongoose").Schema<Users, import("mongoo
 }, "id"> & {
     id: string;
 }, {
+    _id?: import("mongoose").SchemaDefinitionProperty<import("mongoose").Types.ObjectId, Users, Document<unknown, {}, Users, {
+        id: string;
+    }, import("mongoose").DefaultSchemaOptions> & Omit<Users & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }> & {
+        __v: number;
+    }, "id"> & {
+        id: string;
+    }>;
     email?: import("mongoose").SchemaDefinitionProperty<string, Users, Document<unknown, {}, Users, {
         id: string;
     }, import("mongoose").DefaultSchemaOptions> & Omit<Users & Required<{
@@ -33,15 +42,6 @@ export declare const UserSchema: import("mongoose").Schema<Users, import("mongoo
         id: string;
     }>;
     role?: import("mongoose").SchemaDefinitionProperty<Role, Users, Document<unknown, {}, Users, {
-        id: string;
-    }, import("mongoose").DefaultSchemaOptions> & Omit<Users & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }, "id"> & {
-        id: string;
-    }>;
-    _id?: import("mongoose").SchemaDefinitionProperty<import("mongoose").Types.ObjectId, Users, Document<unknown, {}, Users, {
         id: string;
     }, import("mongoose").DefaultSchemaOptions> & Omit<Users & Required<{
         _id: import("mongoose").Types.ObjectId;

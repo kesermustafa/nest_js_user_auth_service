@@ -10,6 +10,13 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@auth/*": ["src/modules/auth/*"],
+      "@security/*": ["src/security/*"],
+      "@utils/*": ["src/utils/*"]
+    },
+
     "incremental": true,
     "skipLibCheck": true, // Bu satır kritik: Kütüphanelerdeki tip hatalarını görmezden gelir
     "strictNullChecks": false,

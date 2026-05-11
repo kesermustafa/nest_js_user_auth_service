@@ -9,7 +9,8 @@
     "class-validator": "^0.15.1",
     "cookie-parser": "^1.4.7",
     "jose": "^6.2.2",
-    "mongoose": "^9.5.0"
+    "mongoose": "^9.5.0",
+    "tsconfig-paths": "^4.2.0"
   },
   "scripts": {
     "build": "nest build",

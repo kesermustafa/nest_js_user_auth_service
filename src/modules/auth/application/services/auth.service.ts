@@ -1,15 +1,14 @@
 import {Inject, Injectable, UnauthorizedException, NotFoundException, ConflictException } from '@nestjs/common';
-import { IUserRepository } from '../../domain/repositories/user-repository.interface';
-import {JwtPayload, SecurityService} from '../../../../security/security.service';
-import { UserMapper } from '../mappers/user.mapper';
+import { IUserRepository } from '@/modules/auth/domain/repositories/user-repository.interface';
+import {JwtPayload, SecurityService} from '@/security/security.service';
+import { UserMapper } from '@/modules/auth/application/mappers/user.mapper';
 import { Response, Request } from 'express';
-import { LoginDto, RegisterDto } from "../dtos/auth.dto";
+import { LoginDto, RegisterDto } from "@/modules/auth/application/dtos/auth.dto";
 import * as crypto from 'crypto';
-import {Role} from "../../domain/enums/role.enum";
-import {IRefreshTokenRepository} from "../../domain/repositories/refresh-token.repository.interface";
-import {UpdateMeDto} from "../dtos/update-me.dto";
-import {get} from "mongoose";
-import {RequestContext} from "./RequestContext";
+import {Role} from "@/modules/auth/domain/enums/role.enum";
+import {IRefreshTokenRepository} from "@/modules/auth/domain/repositories/refresh-token.repository.interface";
+import {UpdateMeDto} from "@/modules/auth/application/dtos/update-me.dto";
+import {RequestContext} from "@/modules/auth/application/services/RequestContext";
 
 
 @Injectable()
